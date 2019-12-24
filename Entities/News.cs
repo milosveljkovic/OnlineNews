@@ -13,8 +13,8 @@ namespace OnlineNews.Entities
         public string description { get; set; }
         public int likes { get; set; }
         public int dislikes { get; set; }
-       // public LocalDate time { get; set; } //change this 
+        public string dateOfPublication { get; set; } 
         public string journalist { get; set; }
-        public List<string> tags { get; set; }
+        public IEnumerable<string> tags { get; set; }
     }
 }
