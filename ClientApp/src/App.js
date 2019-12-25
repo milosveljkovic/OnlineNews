@@ -26,14 +26,10 @@ export default class App extends React.Component {
   getRoutes = (routes) =>{
     return routes.map((prop, key) => {
       var page;
-      if(prop.component.WrappedComponent){
-        page=prop.component.WrappedComponent
-      }else {
-        page=prop.component
-      }
+      
         return (
           <Route path={prop.path}
-            component={page}
+            component={prop.component}
             key={key}
           />
         );

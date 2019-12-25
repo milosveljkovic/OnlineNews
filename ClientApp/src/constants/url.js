@@ -1,4 +1,1 @@
-const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href');
-
-
-export const URL=baseUrl;
+export const URL ="https://localhost:44319";

@@ -43,6 +43,14 @@ class Login extends React.Component{
                 <div className=" text-center mb-3">
                     <button onClick={this.onSubmit}  className="btn btn-primary">Login</button>
                 </div>
+                {
+                this.props.loginSuccess===false?
+                <div class="alert alert-danger" role="alert">
+                    Something went wrong. Please try again.
+                </div>
+                :
+                <p></p>
+                }
             </div>
         )
     }
@@ -54,11 +62,11 @@ function mapDispatchToProps (dispath) {
     }
 }
 
-// function mapStateToProps (state) {
-//     return {
-//         loginSuccess: state.auth.login_success
-//     }
-// }
+function mapStateToProps (state) {
+    return {
+        loginSuccess: state.user.loginSuccess
+    }
+}
 
 
-export default connect(null,mapDispatchToProps)(Login);
+export default connect(mapStateToProps,mapDispatchToProps)(Login);

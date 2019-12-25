@@ -10,11 +10,20 @@ const initialState={
 export function userReducer(state=initialState,action){
     switch(action.type){
         case LOGIN_SUCCESS:
-            console.log(action.user)
-            return {...action.user}
+            var user =(action.user)
+            return {
+                ...state,
+                username:user.username,
+                isJournalist:user.isJournalist,
+                loginSuccess:true
+            }
         case LOGIN_UNSUCCESS:
-            // state.login_success=true;
-            // return {...state}   
+            return {
+                ...state,
+                username: "",
+                isJournalist: null,
+                loginSuccess: false
+            } 
         default:
             return state;
     }

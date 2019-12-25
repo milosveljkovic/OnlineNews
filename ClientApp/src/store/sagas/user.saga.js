@@ -19,10 +19,12 @@ import { loginSuccess,loginUnsucces } from "../actions/user.actions";
 
 export function* login (auth)
 {
-    const response=yield loginUser(auth);
+    const response = yield loginUser(auth);
+    console.log(response);
     if(response.status === 204) {  // ===204 if somethign server return null 
         yield put (loginUnsucces())
-    }else {
-        yield put (loginSuccess(response)) //print this this func expect user info
+    } else {
+        //add to localstorage userID(username)
+        yield put (loginSuccess(response.data)) //print this this func expect user info
     }
 }
