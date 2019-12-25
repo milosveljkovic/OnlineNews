@@ -28,7 +28,6 @@ namespace OnlineNews.Controllers
             Row userData = session.Execute("select * from \"User\" where \"username\"='" + _user.Username + "'").FirstOrDefault();
             if (userData != null)
             {
-                Console.WriteLine(userData["password"].ToString());
                 if(userData["password"].ToString().Trim() == _user.Password)
                 {
                     user.Username = userData["username"].ToString();

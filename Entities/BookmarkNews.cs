@@ -12,7 +12,7 @@ namespace OnlineNews.Entities
         public string title { get; set; }
         public string imageURL { get; set; }
         public string description { get; set; }
-        public string date_of_publication { get; set; }
+        public string dateOfPublication { get; set; }
         public string journalist { get; set; }
     }
 }

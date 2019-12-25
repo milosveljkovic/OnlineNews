@@ -33,7 +33,7 @@ namespace OnlineNews.Controllers
                     news.title = BookmarkNewsData["title"] != null ? BookmarkNewsData["title"].ToString() : string.Empty;
                     news.imageURL = BookmarkNewsData["imageurl"] != null ? BookmarkNewsData["imageurl"].ToString() : string.Empty;
                     news.description = BookmarkNewsData["description"] != null ? BookmarkNewsData["description"].ToString() : string.Empty;
-                    news.date_of_publication = BookmarkNewsData["date_of_publication"] != null ? BookmarkNewsData["date_of_publication"].ToString() : string.Empty;
+                    news.dateOfPublication = BookmarkNewsData["date_of_publication"] != null ? BookmarkNewsData["date_of_publication"].ToString() : string.Empty;
                     news.journalist = BookmarkNewsData["journalist"] != null ? BookmarkNewsData["journalist"].ToString() : string.Empty;
                     listOfTagedNews.Add(news);
                 }
@@ -42,29 +42,19 @@ namespace OnlineNews.Controllers
         }
 
 
-        //[HttpGet("addBookmark")]
-        //public ActionResult AddBookmark([FromQuery]string username, [FromQuery]string newsID)
-        //{
-        //    Dse.ISession session = SessionManager.GetSession();
+        [HttpPost("addBookmark")]
+        public ActionResult AddBookmark([FromBody]BookmarkNews _bookmarkNews)
+        {
+            Dse.ISession session = SessionManager.GetSession();
 
-        //    if (session == null)
-        //    {
-        //        return StatusCode(500);
-        //    }
-        //    News news = new News();
-        //    Row newsData = session.Execute("select * from \"News\" where \"newsID\"='" + newsID + "'").FirstOrDefault();
-        //    if (newsData == null)
-        //        return StatusCode(500);
-        //    news.newsID = newsData["newsID"] != null ? newsData["newsID"].ToString() : string.Empty;
-        //    news.title = newsData["title"] != null ? newsData["title"].ToString() : string.Empty;
-        //    news.imageURL = newsData["imageurl"] != null ? newsData["imageurl"].ToString() : string.Empty;
-        //    news.description = newsData["description"] != null ? newsData["description"].ToString() : string.Empty;
-        //    news.dateOfPublication = newsData["date_of_publication"] != null ? newsData["date_of_publication"].ToString() : string.Empty;
-        //    news.journalist = newsData["journalist"] != null ? newsData["journalist"].ToString() : string.Empty;
-        //    news.tags = (string[])newsData["tags"];
-
-        //    session.Execute("insert into \"Bookmarks\" (\"username\", \"newsID\", title, imageURL, description, journalist, date_of_publication) values " +
-        //            "('" + tag + "', '" + news.newsID + "', '" + news.title + "', '" + news.imageURL + "', '" + news.description + "', '" + news.journalist + "', '" + news.dateOfPublication + "')");
-        //}
+            if (session == null)
+            {
+                return StatusCode(500);
+            }
+            
+            session.Execute("insert into \"BookmarkNews\" (\"username\", \"newsID\", title, imageURL, description, journalist, date_of_publication) values " +
+                    "('" + _bookmarkNews.username + "', '" + _bookmarkNews.newsID + "', '" + _bookmarkNews.title + "', '" + _bookmarkNews.imageURL + "', '" + _bookmarkNews.description + "', '" + _bookmarkNews.journalist + "', '" + _bookmarkNews.dateOfPublication + "')");
+            return StatusCode(200);
+        }
     }
 }

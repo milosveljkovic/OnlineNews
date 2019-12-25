@@ -13,28 +13,6 @@ namespace OnlineNews.Controllers
     [ApiController]
     public class TagNewsController:ControllerBase
     {
-        [HttpGet]
-        public TagNews Get()
-        {
-            Dse.ISession session = SessionManager.GetSession();
-
-            TagNews news = new TagNews();
-            if (session == null)
-                return null;
-            List<TagNews> listOfTagedNews = new List<TagNews>();
-            Row tagNewsData = session.Execute("select * from \"TagNews\" where \"newsID\"='1'").FirstOrDefault();
-            if (tagNewsData != null)
-            {
-                news.newsID = tagNewsData["newsID"] != null ? tagNewsData["newsID"].ToString() : string.Empty;
-                news.tagID = tagNewsData["tagId"] != null ? tagNewsData["tagId"].ToString() : string.Empty;
-                news.title = tagNewsData["title"] != null ? tagNewsData["title"].ToString() : string.Empty;
-                news.imageURL = tagNewsData["imageurl"] != null ? tagNewsData["imageurl"].ToString() : string.Empty;
-                news.description = tagNewsData["description"] != null ? tagNewsData["description"].ToString() : string.Empty;
-                news.time = tagNewsData["time"] != null ? tagNewsData["time"].ToString() : string.Empty;
-                news.journalist = tagNewsData["journalist"] != null ? tagNewsData["journalist"].ToString() : string.Empty;
-            }
-            return news;
-        }
 
         [HttpGet("getNewsByTag/{tagId}", Name = "GetNewsByTag")]
         public List<TagNews> GetNewsByTag(string tagId)
@@ -56,12 +34,15 @@ namespace OnlineNews.Controllers
                     news.title = tagNewsData["title"] != null ? tagNewsData["title"].ToString() : string.Empty;
                     news.imageURL = tagNewsData["imageurl"] != null ? tagNewsData["imageurl"].ToString() : string.Empty;
                     news.description = tagNewsData["description"] != null ? tagNewsData["description"].ToString() : string.Empty;
-                    news.time = tagNewsData["date_of_publication"] != null ? tagNewsData["date_of_publication"].ToString() : string.Empty;
+                    news.dateOfPublication = tagNewsData["date_of_publication"] != null ? tagNewsData["date_of_publication"].ToString() : string.Empty;
                     news.journalist = tagNewsData["journalist"] != null ? tagNewsData["journalist"].ToString() : string.Empty;
                     listOfTagedNews.Add(news);
                 }
             }
+            if (listOfTagedNews.Count == 0)
+                return null;
             return listOfTagedNews;
+
         }
     }
 }
