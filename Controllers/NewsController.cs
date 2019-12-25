@@ -68,7 +68,13 @@ namespace OnlineNews.Controllers
 
             string formatedTags = getFormatedTags(news.tags);
 
-            RowSet newsData = session.Execute("insert into \"News\" (\"newsID\", title, imageURL, description, likes, dislikes, journalist, tags, date_of_publication) values ('" + news.newsID + "', '"+ news.title+ "', '" + news.imageURL + "', '" + news.description + "', " + news.likes + ", " + news.dislikes + ", '" + news.journalist + "', [" + formatedTags + "],'"+news.dateOfPublication+"')");
+            RowSet newsData = session.Execute("insert into \"News\" (\"newsID\", title, imageURL, description, likes, dislikes, journalist, tags, date_of_publication) " +
+                "values ('" + news.newsID + "', '"+ news.title+ "', '" + news.imageURL + "', '" + news.description + "', " + news.likes + ", " + news.dislikes + ", '" + news.journalist + "', [" + formatedTags + "],'"+news.dateOfPublication+"')");
+            foreach(string tag in news.tags)
+            {
+                session.Execute("insert into \"TagNews\" (\"tagID\", \"newsID\", title, imageURL, description, journalist, date_of_publication) values " +
+                    "('"+ tag + "', '" + news.newsID + "', '" + news.title + "', '" + news.imageURL + "', '" + news.description + "', '" + news.journalist + "', '" + news.dateOfPublication + "')");
+            }
             return StatusCode(200);
         }
 
