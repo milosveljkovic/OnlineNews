@@ -14,20 +14,22 @@ namespace OnlineNews.Controllers
     public class UserController : ControllerBase
     {
         
-        [HttpGet("login")]
-        public User Get([FromQuery]string username, [FromQuery]string password)
+        [HttpPost("login", Name = "LogIn")]
+        public User LogIn([FromBody]User _user)
         {
+
             Dse.ISession session = SessionManager.GetSession();
             User user = new User();
 
             if (session == null)
                 return null;
 
-            Row userData = session.Execute("select * from \"User\" where \"username\"='" + username + "'").FirstOrDefault();
+
+            Row userData = session.Execute("select * from \"User\" where \"username\"='" + _user.Username + "'").FirstOrDefault();
             if (userData != null)
             {
                 Console.WriteLine(userData["password"].ToString());
-                if(userData["password"].ToString().Trim() == password)
+                if(userData["password"].ToString().Trim() == _user.Password)
                 {
                     user.Username = userData["username"].ToString();
                     user.isJournalist = Boolean.Parse(userData["isJournalist"].ToString());

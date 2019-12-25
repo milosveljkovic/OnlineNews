@@ -11,7 +11,7 @@ namespace OnlineNews.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BookmarkNewsController
+    public class BookmarkNewsController:ControllerBase
     {
         [HttpGet("{username}")]
         public List<BookmarkNews> GetNewsByTag(string username)
@@ -40,5 +40,31 @@ namespace OnlineNews.Controllers
             }
             return listOfTagedNews;
         }
+
+
+        //[HttpGet("addBookmark")]
+        //public ActionResult AddBookmark([FromQuery]string username, [FromQuery]string newsID)
+        //{
+        //    Dse.ISession session = SessionManager.GetSession();
+
+        //    if (session == null)
+        //    {
+        //        return StatusCode(500);
+        //    }
+        //    News news = new News();
+        //    Row newsData = session.Execute("select * from \"News\" where \"newsID\"='" + newsID + "'").FirstOrDefault();
+        //    if (newsData == null)
+        //        return StatusCode(500);
+        //    news.newsID = newsData["newsID"] != null ? newsData["newsID"].ToString() : string.Empty;
+        //    news.title = newsData["title"] != null ? newsData["title"].ToString() : string.Empty;
+        //    news.imageURL = newsData["imageurl"] != null ? newsData["imageurl"].ToString() : string.Empty;
+        //    news.description = newsData["description"] != null ? newsData["description"].ToString() : string.Empty;
+        //    news.dateOfPublication = newsData["date_of_publication"] != null ? newsData["date_of_publication"].ToString() : string.Empty;
+        //    news.journalist = newsData["journalist"] != null ? newsData["journalist"].ToString() : string.Empty;
+        //    news.tags = (string[])newsData["tags"];
+
+        //    session.Execute("insert into \"Bookmarks\" (\"username\", \"newsID\", title, imageURL, description, journalist, date_of_publication) values " +
+        //            "('" + tag + "', '" + news.newsID + "', '" + news.title + "', '" + news.imageURL + "', '" + news.description + "', '" + news.journalist + "', '" + news.dateOfPublication + "')");
+        //}
     }
 }
