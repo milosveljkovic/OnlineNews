@@ -21,41 +21,43 @@ class NavigationBar extends React.Component{
 
     render(){
         return(
-            <div className="container" style={{"backgroundColor":"#e1dee4"}}>
+            <nav className="navbar navbar-expand-lg navbar-dark bg-dark" style={{fontSize:'20px'}}>
+                <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span className="navbar-toggler-icon"></span>
+                </button>
                 {
                     this.props.loginSuccess ?
-                    <ul className="nav justify-content-end">
-                        <li className="nav-item m-2">
-                            <Link to="/home">
-                                Home2
-                            </Link> 
-                        </li>
-                        <li className="nav-item m-2">
-                            <Link to="/home">
+                    <div className="container collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul className="navbar-nav ml-auto">
+                        <li className="nav-item ml-3">
+                            <Link to="/home" style={{color: '#ffffff', textDecoration: 'none', verticalAlign:'middle'}}>
                                 Home
                             </Link> 
                         </li>
-                        <li className="nav-item">
-                            <button onClick={this.handleLogout} className="btn btn-primary">
+                        <li className="nav-item ml-3">
+                            <div onClick={this.handleLogout} className="btn btn-primary">
                                 Logout
-                            </button> 
+                            </div>
                         </li>
-                    </ul>
+                        </ul>
+                    </div>
                     :
-                    <ul className="nav justify-content-end">
-                        <li className="nav-item m-2">
-                            <Link to="/login">
+                    <div className="container collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul className=" navbar-nav ml-auto">
+                        <li className="nav-item ml-3">
+                            <Link to="/login" style={{color: '#ffffff', textDecoration: 'none'}}>
                                 Login
-                            </Link> 
+                            </Link>
                         </li>
-                        <li className="nav-item m-2">
-                            <Link to="/register">
+                        <li className="nav-item ml-3">
+                            <Link to="/register" style={{color: '#ffffff', textDecoration: 'none'}}>
                                 Register
                             </Link> 
                         </li>
-                    </ul>
+                        </ul>
+                    </div>
                 }
-            </div>
+            </nav>
         )
     }
 }

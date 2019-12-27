@@ -2,6 +2,7 @@
 import Login from './pages/Login'
 import Register from './pages/Register'
 import Home from './pages/Home'
+import Novelty from './components/Novelty';
 
 var routes= [
     {
@@ -13,6 +14,11 @@ var routes= [
         path: "/register",
         name: "Register",
         component: Register
+    },
+    {
+        path: "/novelty/:id",
+        name: "Novelty",
+        component: Novelty
     },
     {
         path: "*",
