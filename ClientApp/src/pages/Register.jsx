@@ -58,6 +58,11 @@ class Register extends React.Component{
      }
 
     render(){
+
+        if(localStorage.getItem('username')) {
+            return <Redirect to="/home" />
+        }
+
         const {username,password,registrationSuccess} = this.state;
         console.log(this.state);
         return(

@@ -48,6 +48,11 @@ class Login extends React.Component{
      }
 
     render(){
+
+        if(localStorage.getItem('username')) {
+            return <Redirect to="/home" />
+        }
+        
         const {username,password} = this.state;
         return(
             <div className="container border-bottom shadow mt-3" style={{"width":500}}>

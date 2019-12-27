@@ -9,7 +9,7 @@ export function* login (auth)
     if(response.status === 204) {  // ===204 if somethign server return null 
         yield put (loginUnsucces())
     } else {
-        //add to localstorage userID(username)
+        localStorage.setItem('username',response.data.username)
         yield put (loginSuccess(response.data)) //print this this func expect user info
     }
 }
