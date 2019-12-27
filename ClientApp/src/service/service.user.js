@@ -14,16 +14,21 @@ export function generateAuthRequest(method, url, options={}, headers={}) {
     }
 }
 
-export function registerNewUser (User) {
-
-    var options={
-        data:User
+export function registerNewUser (auth) {
+    console.log("USAO U REGISTRACIJU")
+    var options = {
+        data: {
+            username: auth.username,
+            password: auth.password
+        }
     };
 
-    var config = generateAuthRequest(POST, 'register' , options, {});
+    var config = generateAuthRequest(POST, 'api/User/register' , options, {});
     return axios(config)
     .then( response => response)
-    .catch( er => er );
+    .catch((errorMessage) => {
+        return errorMessage
+    });
 }  
 
 
@@ -37,7 +42,6 @@ export function loginUser(auth) {
     };
 
     var config = generateAuthRequest(POST, 'api/User/login/', options);
-
     return axios(config)
         .then((response) => {
         console.log(response)

@@ -9,7 +9,9 @@ class Login extends React.Component{
         super(props);
         this.state={
             username:"",
-            password:""
+            password:"",
+            usernameCorrect:null,
+            passwordCorrect:null
          }
     }
 
@@ -17,13 +19,32 @@ class Login extends React.Component{
         this.setState({[event.target.name]:event.target.value})
      }
 
+     handleError = (username,password) => {
+        console.log(username.length,password);
+       if(username.length <= 6){
+           this.setState({'usernameCorrect':false})
+           return false
+       }
+       else {
+           this.setState({'usernameCorrect':true})
+       }
+
+       if(password.length <= 6){
+           this.setState({'passwordCorrect':false})
+           return false;
+       }
+       else {
+           this.setState({'passwordCorrect':true})
+       }
+
+       return true;
+    }
 
      onSubmit= () => {
          const {username, password} = this.state;
-         //service for check does user exist
-         console.log(username);
-         console.log(password);
-         this.props.login(username,password);
+         if(this.handleError(username,password)){
+             this.props.login(username,password);
+         }
      }
 
     render(){
@@ -34,10 +55,26 @@ class Login extends React.Component{
                     <div className="form-group">
                         <label >Name</label>
                         <input onChange={this.onChange} value={username} className="form-control" name="username" placeholder="Enter name"/>
+                        {
+                            this.state.usernameCorrect === false ?
+                            <p>
+                                <small  style={{color:'#cf3844'}}>Username require at least 6 characters.</small>
+                            </p>
+                            :
+                            <p></p>
+                        }
                     </div>
                     <div className="form-group">
                         <label>Password</label>
                         <input onChange={this.onChange} type="password" value={password} className="form-control" name="password" placeholder="Enter password"/>
+                        {
+                        this.state.passwordCorrect === false ?
+                        <p>
+                            <small style={{color:'#cf3844'}}>Password require at least 6 characters.</small>
+                        </p>
+                        :
+                        <p></p>
+                    }
                     </div>
                 </form>
                 <div className=" text-center mb-3">
@@ -45,7 +82,7 @@ class Login extends React.Component{
                 </div>
                 {
                 this.props.loginSuccess===false?
-                <div class="alert alert-danger" role="alert">
+                <div className="alert alert-danger" role="alert">
                     Something went wrong. Please try again.
                 </div>
                 :
