@@ -11,6 +11,7 @@ import { rootSaga } from './store/sagas/root.saga';
 import NavigationBar from './components/NavigationBar'
 import { requestNews } from './store/actions/news.actions';
 import { getNewsByTag } from './store/actions/news-by-tag.actions';
+import { getBookmarksByUsername } from './store/actions/bookmarks.actions';
 
 const sagaMiddleware=createSagaMiddleware();
 
@@ -43,6 +44,10 @@ export default class App extends React.Component {
   render() {
 
     store.dispatch(requestNews());
+    if(localStorage.getItem('username'))
+    {
+      store.dispatch(getBookmarksByUsername(localStorage.getItem('username')));
+    }
     return (
       <Provider store={store}>
         <div>
