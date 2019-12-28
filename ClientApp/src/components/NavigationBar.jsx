@@ -42,6 +42,16 @@ class NavigationBar extends React.Component{
                             </Link> 
                         </li>
                             {
+                                (localStorage.getItem('username') && (localStorage.getItem('isJournalist')==='true'))?
+                                <li className="nav-item ml-3">
+                                    <Link to="/create-novelty" style={{color: '#ffffff', textDecoration: 'none'}}>
+                                        Create-Novelty
+                                    </Link>
+                                </li>
+                                :
+                                null
+                            }
+                            {
                             localStorage.getItem('username')?
                             <li className="nav-item ml-3">
                                 <div onClick={this.handleLogout} className="btn btn-primary">
