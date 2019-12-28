@@ -10,6 +10,7 @@ export function* login (auth)
         yield put (loginUnsucces())
     } else {
         localStorage.setItem('username',response.data.username)
+        localStorage.setItem('isJournalist',response.data.isJournalist)
         yield put (loginSuccess(response.data)) //print this this func expect user info
     }
 }

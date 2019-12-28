@@ -1,4 +1,4 @@
-import { GET_NEWS, ADD_NEWS, GET_NOVELTY } from '../actions/news.actions';
+import { GET_NEWS, GET_NOVELTY } from '../actions/news.actions';
 
 const initialState={
     newsID : "",

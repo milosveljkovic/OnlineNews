@@ -3,6 +3,8 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 import Home from './pages/Home'
 import Novelty from './components/Novelty';
+import TagNews from './pages/TagNews';
+import CreateNovelty from './pages/CreateNovelty';
 
 var routes= [
     {
@@ -19,6 +21,16 @@ var routes= [
         path: "/novelty/:id",
         name: "Novelty",
         component: Novelty
+    },
+    {
+        path: "/tag/:tag",
+        name: "TagNews",
+        component: TagNews,
+    },
+    {
+        path: "/create-novelty",
+        name: "CreateNovelty",
+        component: CreateNovelty,
     },
     {
         path: "*",
