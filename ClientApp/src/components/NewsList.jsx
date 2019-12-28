@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { getNovelty } from '../store/actions/news.actions';
+import { connect } from 'react-redux';
 
 class NewsList extends React.Component{
     render(){
@@ -16,8 +18,8 @@ class NewsList extends React.Component{
                             return(
                                 <div key={novelty.newsID} className="col-4 p-0">
                                     <div className="card">
-                                        <Link to={`/novelty/${novelty.newsID}`}>
-                                            <img src={novelty.imageURL} className="card-img-top" alt="..."></img>
+                                        <Link to={`/novelty/${novelty.newsID}`} onClick={() => this.props.getNovelty(`${novelty.newsID}`)}>
+                                            <img src={novelty.imageURL} className="card-img-top" alt="..." ></img>
                                         </Link>
                                         <div className="card-body">
                                             <h3 className="card-title text-left">{novelty.title}</h3>
@@ -38,7 +40,7 @@ class NewsList extends React.Component{
                     {
                         news.map(novelty => {
                             return(
-                                <div>
+                                <div key={novelty.newsID}>
                                     <div className="card mb-3">
                                     <div className="row no-gutters">
                                         <div className="col-md-4">
@@ -64,4 +66,10 @@ class NewsList extends React.Component{
     }
 }
 
-export default NewsList;
+function mapDispatchToProps(dispatch){
+    return{
+        getNovelty: (id) => (dispatch(getNovelty(id)))
+    }
+}
+
+export default  connect(null,mapDispatchToProps)(NewsList);
