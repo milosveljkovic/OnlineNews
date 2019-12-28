@@ -37,7 +37,7 @@ class NavigationBar extends React.Component{
                             </Link> 
                         </li>
                         <li className="nav-item ml-3">
-                            <Link to="/politika" style={{color: '#ffffff', textDecoration: 'none'}}>
+                            <Link to="/tag/politika" style={{color: '#ffffff', textDecoration: 'none'}}>
                                 Politika
                             </Link> 
                         </li>
