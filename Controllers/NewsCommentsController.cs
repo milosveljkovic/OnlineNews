@@ -89,15 +89,32 @@ namespace OnlineNews.Controllers
         }
 
         [HttpPost]
-        public async void AddComment([FromBody]NewsComments nc)
+        public NewsComments AddComment([FromBody]NewsComments nc)
         {
             ISession session = SessionManager.GetSession();
+            List<NewsComments> comments = new List<NewsComments>();
+
 
             if (session == null)
-                return;
+                return null;
 
-            RowSet guestData = session.Execute("insert into \"NewsComments\"(\"newsID\", \"commentID\", username, comment, \"authorName\", \"dateTime\") values ('" + nc.newsID + "', '" + nc.commentID + "', '" + nc.username + "', '" + nc.comment + "', '" + nc.authorName + "', '" + nc.dateTime + "')");
+            RowSet guest = session.Execute("insert into \"NewsComments\"(\"newsID\", \"commentID\", username, comment, \"authorName\", \"dateTime\") values ('" + nc.newsID + "', '" + nc.commentID + "', '" + nc.username + "', '" + nc.comment + "', '" + nc.authorName + "', '" + nc.dateTime + "')");
 
+            var data = session.Execute("select * from \"NewsComments\"where \"commentID\"='" + nc.commentID + "' and \"newsID\"='" + nc.newsID + "'");
+
+            foreach (var guestData in data)
+            {
+                NewsComments comment = new NewsComments();
+                comment.newsID = guestData["newsID"] != null ? guestData["newsID"].ToString() : string.Empty;
+                comment.commentID = guestData["commentID"] != null ? guestData["commentID"].ToString() : string.Empty;
+                comment.username = guestData["username"] != null ? guestData["username"].ToString() : string.Empty;
+                comment.comment = guestData["comment"] != null ? guestData["comment"].ToString() : string.Empty;
+                comment.authorName = guestData["authorName"] != null ? guestData["authorName"].ToString() : string.Empty;
+                comment.dateTime = guestData["dateTime"] != null ? guestData["dateTime"].ToString() : string.Empty;
+
+                comments.Add(comment);
+            }
+            return comments.FirstOrDefault();
         }
     }
 }
