@@ -14,9 +14,8 @@ class NavigationBar extends React.Component{
     }
 
     handleLogout = () => {
-        // localStorage.clear();
-        // window.location.reload(true);
-        //handle here logout
+        localStorage.clear();
+        window.location.reload(true);
     }
 
     render(){
@@ -25,38 +24,45 @@ class NavigationBar extends React.Component{
                 <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
                 </button>
-                {
-                    this.props.loginSuccess ?
                     <div className="container collapse navbar-collapse" id="navbarSupportedContent">
                         <ul className="navbar-nav ml-auto">
                         <li className="nav-item ml-3">
-                            <Link to="/home" style={{color: '#ffffff', textDecoration: 'none', verticalAlign:'middle'}}>
+                            <Link to="/home" style={{color: '#ffffff', textDecoration: 'none'}}>
                                 Home
                             </Link> 
                         </li>
-                        <li className="nav-item ml-3">
-                            <div onClick={this.handleLogout} className="btn btn-primary">
-                                Logout
-                            </div>
-                        </li>
-                        </ul>
+                            {
+                            localStorage.getItem('username')?
+                            <li className="nav-item ml-3">
+                                <div onClick={this.handleLogout} className="btn btn-primary">
+                                    Logout
+                                </div>
+                            </li>
+                            :
+                            null
+                            }
+                            {
+                                !localStorage.getItem('username')?
+                                <li className="nav-item ml-3">
+                                    <Link to="/login" style={{color: '#ffffff', textDecoration: 'none'}}>
+                                        Login
+                                    </Link>
+                                </li>
+                                :
+                                null
+                            }
+                            {
+                                !localStorage.getItem('username')?
+                                <li className="nav-item ml-3">
+                                    <Link to="/register" style={{color: '#ffffff', textDecoration: 'none'}}>
+                                        Register
+                                    </Link>
+                                </li>
+                                :
+                                null
+                            }
+                            </ul>
                     </div>
-                    :
-                    <div className="container collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul className=" navbar-nav ml-auto">
-                        <li className="nav-item ml-3">
-                            <Link to="/login" style={{color: '#ffffff', textDecoration: 'none'}}>
-                                Login
-                            </Link>
-                        </li>
-                        <li className="nav-item ml-3">
-                            <Link to="/register" style={{color: '#ffffff', textDecoration: 'none'}}>
-                                Register
-                            </Link> 
-                        </li>
-                        </ul>
-                    </div>
-                }
             </nav>
         )
     }
