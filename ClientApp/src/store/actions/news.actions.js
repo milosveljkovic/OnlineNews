@@ -1,6 +1,8 @@
 
 export const GET_NEWS = 'GET_NEWS';
+export const GET_NOVELTY = 'GET_NOVELTY';
 export const REQUEST_NEWS = "REQUEST_NEWS";
+export const GET_NOVELTY_SUCCES = "GET_NOVELTY_SUCCES";
 export const ADD_NEWS = "ADD_NEWS";
 export const ADD_NEWS_SUCCESS = "ADD_NEWS_SUCCESS";
 
@@ -15,6 +17,20 @@ export function getNews(news){
 export function requestNews(){
     return {
         type: REQUEST_NEWS
+    }
+}
+
+export function getNovelty(id){
+    return {
+        type: GET_NOVELTY,
+        id: id
+    }
+}
+
+export function getNoveltySucces(novelty){
+    return {
+        type: GET_NOVELTY_SUCCES,
+        novelty: novelty
     }
 }
 

@@ -1,4 +1,4 @@
-import { GET_NEWS, ADD_NEWS, GET_NOVELTY } from '../actions/news.actions';
+import { GET_NOVELTY, GET_NOVELTY_SUCCES } from '../actions/news.actions';
 
 const initialState={
     newsID : "",
@@ -12,14 +12,11 @@ const initialState={
     tags: []
 }
 
-export function newsReducer( state = initialState, action){
+export function noveltyReducer( state = initialState, action){
     switch(action.type){
-        case GET_NEWS:
-            var news = (action.news);
-            return [...news];
-        case ADD_NEWS:
+        case GET_NOVELTY_SUCCES:
             var novelty = (action.novelty);
-            return [novelty];
+            return novelty;
         default:
             return state;
     }

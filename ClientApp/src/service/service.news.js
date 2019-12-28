@@ -19,3 +19,8 @@ export function getNewsService() {
     return fetch(URL + '/api/News')
     .then(response=> response.json());
 }
+
+export function getNoveltyService(id){
+    return fetch(URL+'/api/News/'+ id)
+    .then(response => response.json());
+}
