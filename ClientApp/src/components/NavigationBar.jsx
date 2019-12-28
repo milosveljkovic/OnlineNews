@@ -31,6 +31,16 @@ class NavigationBar extends React.Component{
                                 Home
                             </Link> 
                         </li>
+                        <li className="nav-item ml-3">
+                            <Link to="/tag/sport" style={{color: '#ffffff', textDecoration: 'none'}}>
+                                Sport
+                            </Link> 
+                        </li>
+                        <li className="nav-item ml-3">
+                            <Link to="/politika" style={{color: '#ffffff', textDecoration: 'none'}}>
+                                Politika
+                            </Link> 
+                        </li>
                             {
                             localStorage.getItem('username')?
                             <li className="nav-item ml-3">

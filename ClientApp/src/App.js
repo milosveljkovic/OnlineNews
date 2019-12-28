@@ -10,6 +10,7 @@ import { createStore,applyMiddleware } from 'redux';
 import { rootSaga } from './store/sagas/root.saga';
 import NavigationBar from './components/NavigationBar'
 import { requestNews } from './store/actions/news.actions';
+import { getNewsByTag } from './store/actions/news-by-tag.actions';
 
 const sagaMiddleware=createSagaMiddleware();
 
