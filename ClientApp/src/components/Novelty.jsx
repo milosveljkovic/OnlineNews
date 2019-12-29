@@ -2,16 +2,22 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { requestComments, addComment } from '../store/actions/comments.actions';
 import CommentsList from './CommentsList';
+import { Link } from 'react-router-dom';
+import {likeService} from '../service/service.likes';
 
 class Novelty extends React.Component{
 
     constructor(props){
         super(props);
+        console.log(this.props.novelty.likes)
         this.state = {
             authorName: '',
             comment:'',
             dateTime:'',
-            errors: false
+            errors: false,
+            likes: this.props.novelty.likes,
+            dislikes: this.props.novelty.dislikes,
+            isLike: ''
         }
     }
 
@@ -55,21 +61,56 @@ class Novelty extends React.Component{
         }
     }
 
+    like = () => {
+        if(localStorage.getItem('username')!==null){
+            var like = {
+                username: localStorage.getItem('username'),
+                newsID: this.props.novelty.newsID,
+                isLike: true,
+                numberOfLikes: this.props.novelty.likes,
+                numberOfDislikes: this.props.novelty.dislikes
+            }
+            likeService(like);
+            this.setState({isLike:true})
+            this.setState({likes: this.state.likes+1});
+        }
+        else{
+            console.log("Cannot like")
+        }
+    }
+
+    dislike = () => {
+        if(localStorage.getItem('username')!==null){
+            var dislike = {
+                username: localStorage.getItem('username'),
+                newsID: this.props.novelty.newsID,
+                isLike: false,
+                numberOfLikes: this.props.novelty.likes,
+                numberOfDislikes: this.props.novelty.dislikes
+            }
+            likeService(dislike);
+            this.setState({isLike:false})
+            this.setState({dislikes: this.state.dislikes+1});
+        }
+        else{
+            console.log("Cannot dislike")
+        }
+    }
+
     render(){
         const {novelty,tags,comments} = this.props;
         const {authorName,comment} = this.state;
-        const time = Date(novelty.dateOfPublication)
         return(
             <div className="container">
                 {novelty!==undefined?
                     <div>
                         <img src={novelty.imageURL} style={{width:'100%'}}></img>
                         <h1 className="mt-5">{novelty.title}</h1>
-                        <h5 className="mt-3" >by <span style={{color:"#17A2B8"}}>{novelty.journalist}</span> | {time}</h5>
+                        <h5 className="mt-3" >by <span style={{color:"#17A2B8"}}>{novelty.journalist}</span> | {novelty.dateOfPublication}</h5>
                         {
                             tags.map(tag => {
                                 return(
-                                <div className="btn btn-primary mr-2 my-3" key={tag}>{tag}</div>
+                                    <Link to={{pathname:`/tag/${tag}`}} className="btn btn-primary mr-2 my-3" key={tag}>{tag}</Link>
                                 )
                             })
                         }
@@ -79,13 +120,29 @@ class Novelty extends React.Component{
                 }
 
                 <hr></hr>
+                <div className="text-center my-3">
+                    {
+                        this.state.isLike===''?
+                        <div><button className="btn btn-success mr-2" onClick={() => this.like()}>Like {novelty.likes}</button><button className="btn btn-danger" onClick={() => this.dislike()}>Dislike {novelty.dislikes}</button></div>
+                        :
+                    
+                        this.state.isLike===true?
+                        <div><button className="btn btn-success mr-2" disabled onClick={() => this.like()}>Like {novelty.likes}</button><button className="btn btn-danger" onClick={() => this.dislike()}>Dislike {novelty.dislikes}</button></div>
+                        :
+                        <div><button className="btn btn-success mr-2" onClick={() => this.like()}>Like {novelty.likes}</button><button className="btn btn-danger" disabled onClick={() => this.dislike()}>Dislike {novelty.dislikes}</button></div>
+                       
+                    }
+                </div>
+                <hr></hr>
 
                 <h2 className="text-center">Comments</h2>
                 
                 {localStorage.getItem('username')!==null?
                     <div className="px-4 py-3" style={{backgroundColor:'white',color:'black', opacity:0.8}}>
                     {this.state.errors===true && (
-                        <h3 style={{color:"red", border:"1px solid red", padding:"5px 5px 10px 10px", textAlign:"center"}}>Error! Fill all fields!</h3>
+                        <div className="alert alert-danger" role="alert">
+                            Fill all fields!
+                        </div>
                     )}
                     <form onSubmit={this.handleSubmit}>
                         <div className="form-group">
@@ -102,7 +159,9 @@ class Novelty extends React.Component{
                 :
                 <div className="px-4 py-3" style={{backgroundColor:'white',color:'black', opacity:0.8}}>
                     {this.state.errors===true && (
-                        <h3 style={{color:"red", border:"1px solid red", padding:"5px 5px 10px 10px", textAlign:"center"}}>Error! Fill all fields!</h3>
+                        <div className="alert alert-danger" role="alert">
+                            Fill all fields!
+                        </div>
                     )}
                     <form onSubmit={this.handleSubmit}>
                         <div className="form-group">

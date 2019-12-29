@@ -8,6 +8,6 @@ export function* fetchComments(id) {
 }
 
 export function* postComment(comment){
-    const newComment = yield addCommentService(comment.comment);
-    yield put(addCommentSucces(newComment));
+    const response = yield addCommentService(comment.comment);
+    yield put(addCommentSucces(comment.comment));
 }

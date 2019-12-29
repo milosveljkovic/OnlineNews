@@ -7,6 +7,7 @@ export function getCommentsService(id) {
 }
 
 export function addCommentService(comment){
+    console.log(comment)
     const newComment = {
         method: "post",
         body: JSON.stringify(comment),

@@ -15,10 +15,15 @@ class Home extends React.Component{
                     news.length===0?
                     <h3>No news</h3>
                     :
-                    <NewsList listOfNews={news} />
+                    <div>
+                        <h1>Latest news</h1>
+                        <NewsList listOfNews={news} />
+                    </div>
                     :
-                    <NewsList listOfNews={news} />
-                }
+                    <div>
+                        <h1 className="mb-3">Latest news</h1>
+                        <NewsList listOfNews={news} />
+                    </div>                }
             </div>
         )
     }

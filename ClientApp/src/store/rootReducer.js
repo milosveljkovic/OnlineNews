@@ -5,6 +5,7 @@ import { newsReducer } from "./reducer/news.reducer";
 import {newsByTagReducer} from './reducer/news-by-tag.reducer'
 import { noveltyReducer } from "./reducer/novelty.reducer";
 import { commentReducers } from "./reducer/comments.reducer";
+import { likesReducers } from "./reducer/likes.reducer";
 
  const rootReducer = combineReducers({
     user:userReducer,
@@ -12,7 +13,8 @@ import { commentReducers } from "./reducer/comments.reducer";
     novelty:noveltyReducer,
     comments: commentReducers,
     news_by_tag:newsByTagReducer,
-    novelty:noveltyReducer
+    novelty:noveltyReducer,
+    likes: likesReducers
 })
 
 export default rootReducer;

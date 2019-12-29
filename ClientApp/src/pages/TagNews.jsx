@@ -26,7 +26,6 @@ class TagNews extends React.Component{
     render(){
         const {news_by_tag} = this.props;
         if(this.state.tagFromNavigation!==this.props.match.params.tag){
-            console.log("asdad")
             this.setState({'tagFromNavigation':this.props.match.params.tag})
             this.getData();
         }
