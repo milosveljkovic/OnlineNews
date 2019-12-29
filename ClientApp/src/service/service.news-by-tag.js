@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { POST } from '../constants/methods'
+import { POST, GET } from '../constants/methods'
 import { URL } from '../constants/url'
 
 export function generateAuthRequest(method, url, options={}, headers={}) {
@@ -14,16 +14,8 @@ export function generateAuthRequest(method, url, options={}, headers={}) {
     }
 }
 
-export function registerNewUser (auth) {
-    console.log("USAO U REGISTRACIJU")
-    var options = {
-        data: {
-            username: auth.username,
-            password: auth.password
-        }
-    };
-
-    var config = generateAuthRequest(POST, 'api/User/register' , options, {});
+export function getNewsByTagService (tag) {
+    var config = generateAuthRequest(GET, `api/tagNews/getNewsByTag/${tag}` , {}, {});
     return axios(config)
     .then( response => response)
     .catch((errorMessage) => {

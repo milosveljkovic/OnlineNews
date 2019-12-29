@@ -40,19 +40,38 @@ namespace OnlineNews.Controllers
             return news;
         }
 
-        // GET: api/News/5
-        //[HttpGet("{id}", Name = "Get")]
-        //public string Get(int id)
-        //{
-        //    Dse.ISession session = SessionManager.GetSession();
-        //    News news = new News();
+        // GET: api/News/newsID    
+        [HttpGet]
+        public List<News> GetNews()
+        {
+            Dse.ISession session = SessionManager.GetSession();
+            List<News> news = new List<News>();
 
-        //    if (session == null)
-        //        return null;
+            if (session == null)
+                return null;
 
+            var newsData = session.Execute("select * from \"News\"");
 
-        //}
+            foreach (var noveltyData in newsData)
+            {
+                News novelty = new News();
+                novelty.newsID = noveltyData["newsID"] != null ? noveltyData["newsID"].ToString() : string.Empty;
+                novelty.title = noveltyData["title"] != null ? noveltyData["title"].ToString() : string.Empty;
+                novelty.imageURL = noveltyData["imageurl"] != null ? noveltyData["imageurl"].ToString() : string.Empty;
+                novelty.description = noveltyData["description"] != null ? noveltyData["description"].ToString() : string.Empty;
+                novelty.likes = noveltyData["likes"] != null ? Int32.Parse(noveltyData["likes"].ToString()) : -1;
+                novelty.dislikes = noveltyData["dislikes"] != null ? Int32.Parse(noveltyData["dislikes"].ToString()) : -1;
+                novelty.dateOfPublication = noveltyData["date_of_publication"] != null ? noveltyData["date_of_publication"].ToString() : string.Empty;
+                novelty.journalist = noveltyData["journalist"] != null ? noveltyData["journalist"].ToString() : string.Empty;
+                novelty.tags = (string[])noveltyData["tags"];
 
+                news.Add(novelty);
+            }
+
+            return news;
+        }
+
+       
         // POST: api/News
         [HttpPost]
         public ActionResult Post([FromBody]News _news)

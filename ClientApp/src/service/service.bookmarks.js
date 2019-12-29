@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { POST } from '../constants/methods'
+import { POST,GET } from '../constants/methods'
 import { URL } from '../constants/url'
 
 export function generateAuthRequest(method, url, options={}, headers={}) {
@@ -14,16 +14,10 @@ export function generateAuthRequest(method, url, options={}, headers={}) {
     }
 }
 
-export function registerNewUser (auth) {
-    console.log("USAO U REGISTRACIJU")
-    var options = {
-        data: {
-            username: auth.username,
-            password: auth.password
-        }
-    };
+export function getBookmarksService (username) {
+    console.log("USAO U BOOKMARKS SERVICE")
 
-    var config = generateAuthRequest(POST, 'api/User/register' , options, {});
+    var config = generateAuthRequest(GET, `api/BookmarkNews/${username}` , {}, {});
     return axios(config)
     .then( response => response)
     .catch((errorMessage) => {
@@ -32,16 +26,12 @@ export function registerNewUser (auth) {
 }  
 
 
-export function loginUser(auth) {
-    //ovaj options se salje kao body, a posle kada vadis podatke vadis ih is response.data
+export function addBookmarkService(bookmark) {
     var options = {
-        data: {
-            username: auth.username,
-            password: auth.password
-        }
+        data: bookmark
     };
 
-    var config = generateAuthRequest(POST, 'api/User/login/', options);
+    var config = generateAuthRequest(POST, 'api/BookmarkNews/addBookmark', options, {});
     return axios(config)
         .then((response) => {
         console.log(response)

@@ -1,17 +1,24 @@
 import React from 'react';
-import {Redirect} from 'react-router-dom'
 import {connect} from 'react-redux';
-import {login} from '../store/actions/user.actions'
+import NewsList from '../components/NewsList';
+
+
 
 class Home extends React.Component{
 
-
-
-    
     render(){
+        const {news} = this.props;
         return(
-            <div className="container border-bottom shadow mt-3" style={{"width":500}}>
-                TEST
+            <div className="container h1 text-center mt-3" >
+                {
+                    news===undefined?
+                    news.length===0?
+                    <h3>No news</h3>
+                    :
+                    <NewsList listOfNews={news} />
+                    :
+                    <NewsList listOfNews={news} />
+                }
             </div>
         )
     }
@@ -24,11 +31,11 @@ class Home extends React.Component{
 //     }
 // }
 
-// function mapStateToProps (state) {
-//     return {
-//         loginSuccess: state.auth.login_success
-//     }
-// }
+function mapStateToProps (state) {
+    return {
+        news: state.news
+    }
+}
 
 
-export default Home;
+export default connect(mapStateToProps,null)(Home);

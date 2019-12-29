@@ -14,48 +14,76 @@ class NavigationBar extends React.Component{
     }
 
     handleLogout = () => {
-        // localStorage.clear();
-        // window.location.reload(true);
-        //handle here logout
+        localStorage.clear();
+        window.location.reload(true);
     }
 
     render(){
         return(
-            <div className="container" style={{"backgroundColor":"#e1dee4"}}>
-                {
-                    this.props.loginSuccess ?
-                    <ul className="nav justify-content-end">
-                        <li className="nav-item m-2">
-                            <Link to="/home">
-                                Home2
-                            </Link> 
-                        </li>
-                        <li className="nav-item m-2">
-                            <Link to="/home">
+            <nav className="navbar navbar-expand-lg navbar-dark bg-dark" style={{fontSize:'20px'}}>
+                <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span className="navbar-toggler-icon"></span>
+                </button>
+                    <div className="container collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul className="navbar-nav ml-auto">
+                        <li className="nav-item ml-3">
+                            <Link to="/home" style={{color: '#ffffff', textDecoration: 'none'}}>
                                 Home
                             </Link> 
                         </li>
-                        <li className="nav-item">
-                            <button onClick={this.handleLogout} className="btn btn-primary">
-                                Logout
-                            </button> 
-                        </li>
-                    </ul>
-                    :
-                    <ul className="nav justify-content-end">
-                        <li className="nav-item m-2">
-                            <Link to="/login">
-                                Login
+                        <li className="nav-item ml-3">
+                            <Link to="/tag/sport" style={{color: '#ffffff', textDecoration: 'none'}}>
+                                Sport
                             </Link> 
                         </li>
-                        <li className="nav-item m-2">
-                            <Link to="/register">
-                                Register
+                        <li className="nav-item ml-3">
+                            <Link to="/tag/politika" style={{color: '#ffffff', textDecoration: 'none'}}>
+                                Politika
                             </Link> 
                         </li>
-                    </ul>
-                }
-            </div>
+                            {
+                                (localStorage.getItem('username') && (localStorage.getItem('isJournalist')==='true'))?
+                                <li className="nav-item ml-3">
+                                    <Link to="/create-novelty" style={{color: '#ffffff', textDecoration: 'none'}}>
+                                        Create-Novelty
+                                    </Link>
+                                </li>
+                                :
+                                null
+                            }
+                            {
+                            localStorage.getItem('username')?
+                            <li className="nav-item ml-3">
+                                <div onClick={this.handleLogout} className="btn btn-primary">
+                                    Logout
+                                </div>
+                            </li>
+                            :
+                            null
+                            }
+                            {
+                                !localStorage.getItem('username')?
+                                <li className="nav-item ml-3">
+                                    <Link to="/login" style={{color: '#ffffff', textDecoration: 'none'}}>
+                                        Login
+                                    </Link>
+                                </li>
+                                :
+                                null
+                            }
+                            {
+                                !localStorage.getItem('username')?
+                                <li className="nav-item ml-3">
+                                    <Link to="/register" style={{color: '#ffffff', textDecoration: 'none'}}>
+                                        Register
+                                    </Link>
+                                </li>
+                                :
+                                null
+                            }
+                            </ul>
+                    </div>
+            </nav>
         )
     }
 }
