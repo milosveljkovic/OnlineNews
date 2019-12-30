@@ -50,7 +50,7 @@ namespace OnlineNews.Controllers
             Row userData = session.Execute("select * from \"User\" where \"username\"='" + user.Username + "'").FirstOrDefault();
             if (userData != null)
                 return StatusCode(500);
-            session.Execute("insert into \"User\"(\"username\", \"password\", \"isJournalist\") values('" + user.Username + "', '" + user.Password + "', " + false + ")");
+            session.Execute("insert into \"User\"(\"username\", \"password\", \"isJournalist\") values('" + user.Username + "', '" + user.Password + "', " + user.isJournalist + ")");
             return StatusCode(200);
         }
 

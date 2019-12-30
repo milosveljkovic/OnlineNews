@@ -13,12 +13,31 @@ namespace OnlineNews.Controllers
     [ApiController]
     public class UserLikesController : ControllerBase
     {
-        // GET: api/UserLikes/5
-        //[HttpGet("{username}")]
-        //public string Get(string username)
-        //{
-           
-        //}
+
+        //GET: api/UserLikes/5
+        [HttpGet("{username}")]
+        public object Get(string username)
+        {
+            Dse.ISession session = SessionManager.GetSession();
+            List<UserLikes> listOfNewsLiked = new List<UserLikes>();
+            if(session!=null)
+            {
+                UserLikes tmp;
+                var rows = session.Execute("select * from \"UserLikes\" where username = '" + username + "'");
+                if(rows!=null)
+                {
+                    foreach(var row in rows)
+                    {
+                        tmp = new UserLikes();
+                        tmp.NewsID = row["newsID"].ToString();
+                        tmp.Username = row["username"].ToString();
+                        tmp.IsLike = Boolean.Parse(row["isLike"].ToString());
+                        listOfNewsLiked.Add(tmp);
+                    }
+                }
+            }
+            return listOfNewsLiked;
+        }
 
         // POST: api/UserLikes
         [HttpPost]

@@ -4,12 +4,25 @@ import { requestComments, addComment } from '../store/actions/comments.actions';
 import CommentsList from './CommentsList';
 import { Link } from 'react-router-dom';
 import {likeService} from '../service/service.likes';
+import { addLike } from '../store/actions/likes.actions';
+import { getNovelty } from '../store/actions/news.actions';
+import {addBookmark} from '../store/actions/bookmarks.actions'
 
 class Novelty extends React.Component{
 
     constructor(props){
         super(props);
-        console.log(this.props.novelty.likes)
+       
+        var likes = Array.from(this.props.likes);
+        var isLike;
+        if(localStorage.getItem('username')===null)
+            isLike = 'no user';
+        likes.map(like => {
+            console.log(props.match.params.id)
+            if(props.match.params.id===like.newsID)
+                isLike = like.isLike;
+        })
+        console.log(isLike)
         this.state = {
             authorName: '',
             comment:'',
@@ -17,13 +30,14 @@ class Novelty extends React.Component{
             errors: false,
             likes: this.props.novelty.likes,
             dislikes: this.props.novelty.dislikes,
-            isLike: ''
+            isLike: isLike
         }
     }
 
     componentDidMount() {
         const newsid = this.props.match.params.id;
         this.props.requestComment(newsid);
+        this.props.getNovelty(newsid);
     }
 
     isFormEmpty = () => {
@@ -62,7 +76,6 @@ class Novelty extends React.Component{
     }
 
     like = () => {
-        if(localStorage.getItem('username')!==null){
             var like = {
                 username: localStorage.getItem('username'),
                 newsID: this.props.novelty.newsID,
@@ -70,17 +83,21 @@ class Novelty extends React.Component{
                 numberOfLikes: this.props.novelty.likes,
                 numberOfDislikes: this.props.novelty.dislikes
             }
-            likeService(like);
-            this.setState({isLike:true})
-            this.setState({likes: this.state.likes+1});
-        }
-        else{
-            console.log("Cannot like")
-        }
+            this.props.addLike(like);
+            if(this.state.isLike===true)
+                this.setState({isLike:null});
+            else if(this.state.isLike===false){
+                this.setState({isLike:true});
+                this.setState({likes: this.state.likes+1});
+            }
+            else{
+                this.setState({isLike:true});
+                this.setState({likes: this.state.likes+1});
+            }
+            console.log(this.state.isLike)
     }
 
     dislike = () => {
-        if(localStorage.getItem('username')!==null){
             var dislike = {
                 username: localStorage.getItem('username'),
                 newsID: this.props.novelty.newsID,
@@ -88,25 +105,75 @@ class Novelty extends React.Component{
                 numberOfLikes: this.props.novelty.likes,
                 numberOfDislikes: this.props.novelty.dislikes
             }
-            likeService(dislike);
-            this.setState({isLike:false})
-            this.setState({dislikes: this.state.dislikes+1});
+            this.props.addLike(dislike);
+            if(this.state.isLike===false)
+                this.setState({isLike:null});
+            else if(this.state.isLike===true){
+                this.setState({isLike:false});
+                this.setState({dislikes: this.state.dislikes+1});
+            }
+            else{
+                this.setState({isLike:false});            
+                this.setState({dislikes: this.state.dislikes+1});
+            }
+            console.log(this.state.isLike)
+
+    }
+
+    saveBookmark = () => 
+    {
+        const {novelty} = this.props;
+        const date=new Date(novelty.dateOfPublication).getTime();
+        const bookmark = {
+            username:localStorage.getItem('username'),
+            newsID:novelty.newsID,
+            title:novelty.title,
+            imageURL: novelty.imageURL,
+            description: novelty.description,
+            dateOfPublication: date,
+            journalist:novelty.journalist
         }
-        else{
-            console.log("Cannot dislike")
+        this.props.addBookmark(bookmark);
+    }
+
+    alreadySaved = (bookmarks) =>
+    {
+        var isAlreadySaved=false;
+        if(bookmarks!==undefined && this.props.novelty.newsID!==undefined){
+            bookmarks.map(bookmark=>{
+                if(bookmark.newsID===this.props.novelty.newsID){
+                    isAlreadySaved= true;
+                }
+            })
         }
+        return isAlreadySaved;
     }
 
     render(){
         const {novelty,tags,comments} = this.props;
         const {authorName,comment} = this.state;
+        var moment = require('moment');
+        var date = Date.parse(novelty.dateOfPublication);
+        var d = moment(date).format('LLL');
         return(
             <div className="container">
                 {novelty!==undefined?
                     <div>
-                        <img src={novelty.imageURL} style={{width:'100%'}}></img>
-                        <h1 className="mt-5">{novelty.title}</h1>
-                        <h5 className="mt-3" >by <span style={{color:"#17A2B8"}}>{novelty.journalist}</span> | {novelty.dateOfPublication}</h5>
+                        <img src={novelty.imageURL} style={{width:'100%',marginTop:'40px'}}></img>
+                        <div>
+                            <h1 className="mt-5">{novelty.title}</h1>
+                            {
+                            !this.alreadySaved(this.props.bookmarks)?
+                            <div className="btn btn-secondary float-right" onClick={()=> this.saveBookmark()}>
+                                Save
+                            </div>
+                            :
+                            <div className="btn btn-secondary float-right disabled">
+                                Save
+                            </div>
+                            }
+                        </div>
+                        <h5 className="mt-3" >by <span style={{color:"#17A2B8"}}>{novelty.journalist}</span> | {d}</h5>
                         {
                             tags.map(tag => {
                                 return(
@@ -122,15 +189,35 @@ class Novelty extends React.Component{
                 <hr></hr>
                 <div className="text-center my-3">
                     {
-                        this.state.isLike===''?
-                        <div><button className="btn btn-success mr-2" onClick={() => this.like()}>Like {novelty.likes}</button><button className="btn btn-danger" onClick={() => this.dislike()}>Dislike {novelty.dislikes}</button></div>
+                        this.state.isLike==='no user'?
+                        <div>
+                            <button className="btn btn-success mr-2" onClick={() => this.like()} disabled>Like {novelty.likes}</button>
+                            <button className="btn btn-danger" onClick={() => this.dislike()} disabled>Dislike {novelty.dislikes}</button>
+                        </div>
                         :
-                    
-                        this.state.isLike===true?
-                        <div><button className="btn btn-success mr-2" disabled onClick={() => this.like()}>Like {novelty.likes}</button><button className="btn btn-danger" onClick={() => this.dislike()}>Dislike {novelty.dislikes}</button></div>
+                        this.state.isLike===undefined?
+                        <div>
+                            <button className="btn btn-success mr-2" onClick={() => this.like()}>Like {novelty.likes}</button>
+                            <button className="btn btn-danger" onClick={() => this.dislike()}>Dislike {novelty.dislikes}</button>
+                        </div>
                         :
-                        <div><button className="btn btn-success mr-2" onClick={() => this.like()}>Like {novelty.likes}</button><button className="btn btn-danger" disabled onClick={() => this.dislike()}>Dislike {novelty.dislikes}</button></div>
-                       
+                        this.state.isLike===null?
+                        <div>
+                            <button className="btn btn-success mr-2" onClick={() => this.like()}>Like {novelty.likes}</button>
+                            <button className="btn btn-danger" onClick={() => this.dislike()}>Dislike {novelty.dislikes}</button>
+                        </div>
+                        :
+                        this.state.isLike===false?
+                        <div>
+                            <button className="btn btn-success mr-2" onClick={() => this.like()}>Like {novelty.likes}</button>
+                            <button className="btn btn-warning" onClick={() => this.dislike()}>Dislike {novelty.dislikes}</button>
+                        </div>
+                        :
+                        <div>
+                            <button className="btn btn-warning mr-2" onClick={() => this.like()}>Like {novelty.likes}</button>
+                            <button className="btn btn-danger" onClick={() => this.dislike()}>Dislike {novelty.dislikes}</button>
+                        </div>
+
                     }
                 </div>
                 <hr></hr>
@@ -189,18 +276,23 @@ class Novelty extends React.Component{
 function mapDispatchToProps(dispatch){
     return{
         requestComment: (id) => (dispatch(requestComments(id))),
-        addComment:(comment) => dispatch(addComment(comment))
+        addComment:(comment) => dispatch(addComment(comment)),
+        addLike: (like) => dispatch(addLike(like)),
+        getNovelty: (id) => (dispatch(getNovelty(id))),
+        addBookmark:(bookmark)=>(dispatch(addBookmark(bookmark)))
     }
 }
 
 
 function mapStateToProps(state){
     return{
+        likes: state.likes,
         lastId: state.comments.length,
         comments: state.comments,
         novelty: state.novelty,
         tags: state.novelty.tags,
-        username: state.user.username
+        username: state.user.username,
+        bookmarks: state.bookmarks
     }
 }
 

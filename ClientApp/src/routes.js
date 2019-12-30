@@ -5,6 +5,7 @@ import Home from './pages/Home'
 import Novelty from './components/Novelty';
 import TagNews from './pages/TagNews';
 import CreateNovelty from './pages/CreateNovelty';
+import Bookmarks from './pages/Bookmarks';
 
 var routes= [
     {
@@ -31,6 +32,11 @@ var routes= [
         path: "/create-novelty",
         name: "CreateNovelty",
         component: CreateNovelty,
+    },
+    {
+        path: "/bookmarks",
+        name: "Bookmarks",
+        component: Bookmarks,
     },
     {
         path: "*",

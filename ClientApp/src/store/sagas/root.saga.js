@@ -10,6 +10,8 @@ import { REQUEST_COMMENTS, ADD_COMMENT } from '../actions/comments.actions';
 import { fetchComments, postComment } from './comments.saga';
 import { REQUEST_LIKES, ADD_LIKE } from '../actions/likes.actions';
 import { fetchLikes, likeNews } from './likes.saga';
+import { GET_BOOKMARKS_BY_USERNAME, ADD_BOOKMARK } from '../actions/bookmarks.actions';
+import { addBookmark,getBookmarksByUsername } from './bookmarks.saga';
 
 export function* rootSaga () {
     yield all (
@@ -22,7 +24,11 @@ export function* rootSaga () {
             takeEvery ( GET_NEWS_BY_TAG, getNewsByTag),
             takeEvery ( GET_NOVELTY, fetchNovelty),
             takeEvery ( REQUEST_LIKES, fetchLikes),
-            takeEvery ( ADD_LIKE, likeNews)
+            takeEvery ( ADD_LIKE, likeNews),
+            takeEvery (GET_NEWS_BY_TAG, getNewsByTag),
+            takeEvery ( GET_NOVELTY, fetchNovelty),
+            takeEvery ( GET_BOOKMARKS_BY_USERNAME, getBookmarksByUsername),
+            takeEvery ( ADD_BOOKMARK, addBookmark)
         ]
     )
 }

@@ -66,7 +66,7 @@ class Register extends React.Component{
         const {username,password,registrationSuccess} = this.state;
         console.log(this.state);
         return(
-            <div className="container border-bottom shadow mt-3" style={{"width":500}}>
+            <div className="container border-bottom shadow" style={{"width":500, marginTop: "150px"}}>
                 <form >
                     <div className="form-group">
                         <label >Name</label>

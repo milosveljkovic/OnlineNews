@@ -43,18 +43,34 @@ namespace OnlineNews.Controllers
 
 
         [HttpPost("addBookmark")]
-        public ActionResult AddBookmark([FromBody]BookmarkNews _bookmarkNews)
+        public BookmarkNews AddBookmark([FromBody]BookmarkNews _bookmarkNews)
         {
             Dse.ISession session = SessionManager.GetSession();
+            BookmarkNews bookMark = new BookmarkNews();
 
             if (session == null)
             {
-                return StatusCode(500);
+                StatusCode(204);
+                return null;
             }
-            
-            session.Execute("insert into \"BookmarkNews\" (\"username\", \"newsID\", title, imageURL, description, journalist, date_of_publication) values " +
+
+           session.Execute("insert into \"BookmarkNews\" (\"username\", \"newsID\", title, imageURL, description, journalist, date_of_publication) values " +
                     "('" + _bookmarkNews.username + "', '" + _bookmarkNews.newsID + "', '" + _bookmarkNews.title + "', '" + _bookmarkNews.imageURL + "', '" + _bookmarkNews.description + "', '" + _bookmarkNews.journalist + "', '" + _bookmarkNews.dateOfPublication + "')");
-            return StatusCode(200);
+            
+
+            var data = session.Execute("select * from \"BookmarkNews\" where \"username\"='" + _bookmarkNews.username + "' and \"newsID\"='" + _bookmarkNews.newsID + "'");
+            foreach (var bookmarkedNewsData in data)
+            {
+                bookMark.username = bookmarkedNewsData["username"] != null ? bookmarkedNewsData["username"].ToString() : string.Empty;
+                bookMark.newsID = bookmarkedNewsData["newsID"] != null ? bookmarkedNewsData["newsID"].ToString() : string.Empty;
+                bookMark.title = bookmarkedNewsData["title"] != null ? bookmarkedNewsData["title"].ToString() : string.Empty;
+                bookMark.imageURL = bookmarkedNewsData["imageurl"] != null ? bookmarkedNewsData["imageurl"].ToString() : string.Empty;
+                bookMark.description = bookmarkedNewsData["description"] != null ? bookmarkedNewsData["description"].ToString() : string.Empty;
+                bookMark.dateOfPublication = bookmarkedNewsData["date_of_publication"] != null ? bookmarkedNewsData["date_of_publication"].ToString() : string.Empty; 
+                bookMark.journalist = bookmarkedNewsData["journalist"] != null ? bookmarkedNewsData["journalist"].ToString() : string.Empty;
+            }
+            StatusCode(200);
+            return bookMark;
         }
     }
 }

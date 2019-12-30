@@ -5,7 +5,7 @@ class CommentsList extends React.Component {
 
         var comments = Array.from(this.props.comments)
         return(
-            <div className="mt-3 pr-3" style={{color:'white', width:'100%'}}>
+            <div className="mt-3 pr-3 mb-5" style={{color:'white', width:'100%'}}>
                {
                    comments!==undefined?
                    comments
@@ -21,7 +21,7 @@ class CommentsList extends React.Component {
                {
                    this.props.comments.length === 0?
                    <div  className="px-4 py-3 text-center" style={{backgroundColor:'white',color:'black', opacity:0.8}}>
-                        <h4>There are no comments for this novelty.</h4>
+                        <h4 className="mb-5">There are no comments for this novelty.</h4>
                     </div>
                     :
                     ''

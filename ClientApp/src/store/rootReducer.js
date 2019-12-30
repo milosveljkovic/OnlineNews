@@ -6,15 +6,16 @@ import {newsByTagReducer} from './reducer/news-by-tag.reducer'
 import { noveltyReducer } from "./reducer/novelty.reducer";
 import { commentReducers } from "./reducer/comments.reducer";
 import { likesReducers } from "./reducer/likes.reducer";
+import { bookmarksReducer } from "./reducer/bookmarks.reducer";
 
  const rootReducer = combineReducers({
     user:userReducer,
     news:newsReducer,
-    novelty:noveltyReducer,
     comments: commentReducers,
     news_by_tag:newsByTagReducer,
     novelty:noveltyReducer,
-    likes: likesReducers
+    likes: likesReducers,
+    bookmarks:bookmarksReducer
 })
 
 export default rootReducer;

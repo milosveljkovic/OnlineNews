@@ -15,6 +15,9 @@ class NewsList extends React.Component{
                 <div className="row">
                     {
                         news.map(novelty => {
+                            var moment = require('moment');
+                            var parseDate = Date.parse(novelty.dateOfPublication);
+                            var date = moment(parseDate).startOf('hour').fromNow();
                             return(
                                 <div key={novelty.newsID}>
                                     <div className="card mb-3">
@@ -24,12 +27,12 @@ class NewsList extends React.Component{
                                             <img src={novelty.imageURL} className="card-img-top" alt="..."></img>
                                         </Link>
                                         </div>
-                                        <div className="col-md-8">
+                                        <div className="col-md-8 d-flex align-items-center">
                                             <div className="card-body" style={{verticalAlign:'middle'}}>
                                             <Link to={`/novelty/${novelty.newsID}`} onClick={() => this.props.getNovelty(`${novelty.newsID}`)} style={{textDecoration:"none",color:'#000000'}}>
-                                            <h3 className="card-title text-left" style={{verticalAlign:'middle'}}>{novelty.title} </h3>
+                                            <h2 className="card-title text-left" style={{verticalAlign:'middle'}}>{novelty.title} </h2>
                                             </Link>
-                                                <p className="text-left" style={{fontSize:'20px'}}>by <span style={{color: 'blue'}}>{novelty.journalist}</span> | {novelty.dateOfPublication}</p>
+                                                <p className="text-left" style={{fontSize:'16px'}}>by <span style={{color: 'blue'}}>{novelty.journalist}</span> | {date}</p>
                                             </div>
                                         </div>  
                                         </div>  
