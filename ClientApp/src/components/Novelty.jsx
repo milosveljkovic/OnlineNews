@@ -7,6 +7,7 @@ import {likeService} from '../service/service.likes';
 import { addLike } from '../store/actions/likes.actions';
 import { getNovelty } from '../store/actions/news.actions';
 import {addBookmark} from '../store/actions/bookmarks.actions'
+var moment = require('moment');
 
 class Novelty extends React.Component{
 
@@ -152,7 +153,6 @@ class Novelty extends React.Component{
     render(){
         const {novelty,tags,comments} = this.props;
         const {authorName,comment} = this.state;
-        var moment = require('moment');
         var date = Date.parse(novelty.dateOfPublication);
         var d = moment(date).format('LLL');
         return(
@@ -163,6 +163,12 @@ class Novelty extends React.Component{
                         <div>
                             <h1 className="mt-5">{novelty.title}</h1>
                             {
+                            !localStorage.getItem('username')?
+                            <p></p>
+                            :
+                            localStorage.getItem('isJournalist')==='true'?
+                            <p></p>
+                            :
                             !this.alreadySaved(this.props.bookmarks)?
                             <div className="btn btn-secondary float-right" onClick={()=> this.saveBookmark()}>
                                 Save

@@ -60,6 +60,10 @@ class CreateNovelty extends React.Component{
 
     render(){
 
+        if(!localStorage.getItem('isJournalist')) {
+            return <Redirect to="/home" />
+        }
+
         const {journalist, noveltyDescription, noveltyImageUrl,newsTitle,noveltyTags,success} = this.state;
 
         return(

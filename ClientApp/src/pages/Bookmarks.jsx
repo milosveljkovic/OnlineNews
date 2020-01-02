@@ -1,6 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import NewsList from '../components/NewsList';
+import {Redirect} from 'react-router-dom'
 import {getNewsByTag} from '../store/actions/news-by-tag.actions'
 
 
@@ -12,6 +13,11 @@ class Bookmarks extends React.Component{
 
     render(){
         const {bookmarks} = this.props;
+
+        if(!localStorage.getItem('username')) {
+            return <Redirect to="/home" />
+        }
+
         return(
             <div className="container h1 text-center mt-3" >
                 <h1 className="mb-3">My Bookmarks</h1>

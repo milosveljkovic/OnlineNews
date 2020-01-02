@@ -1,4 +1,5 @@
 import React from 'react';
+var moment = require('moment');
 
 class CommentsList extends React.Component {
     render() {
@@ -11,7 +12,7 @@ class CommentsList extends React.Component {
                    comments
                    .map((comment) => (
                         <div key={comment.commentID} className="px-5 py-4"  style={{borderBottom:'1px solid grey',backgroundColor:'white',color:'black', opacity:0.8}}>
-                            <div style={{display:'flex'}}><h5 className="mr-3">{comment.authorName}</h5><p className="mr-3">o</p><p>{comment.dateTime}</p></div>
+                            <div style={{display:'flex'}}><h5 className="mr-3">{comment.authorName}</h5><p className="mr-3">o</p><p>{moment(comment.dateTime).format('LLL')}</p></div>
                             <p style={{fontSize:'18px', margin:'0px'}}>{comment.comment}</p>
                         </div>
                    ))
