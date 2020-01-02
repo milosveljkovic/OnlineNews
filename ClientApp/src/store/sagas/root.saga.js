@@ -22,11 +22,8 @@ export function* rootSaga () {
             takeEvery ( REQUEST_COMMENTS,fetchComments),
             takeEvery ( ADD_COMMENT, postComment),
             takeEvery ( GET_NEWS_BY_TAG, getNewsByTag),
-            takeEvery ( GET_NOVELTY, fetchNovelty),
             takeEvery ( REQUEST_LIKES, fetchLikes),
             takeEvery ( ADD_LIKE, likeNews),
-            takeEvery (GET_NEWS_BY_TAG, getNewsByTag),
-            takeEvery ( GET_NOVELTY, fetchNovelty),
             takeEvery ( GET_BOOKMARKS_BY_USERNAME, getBookmarksByUsername),
             takeEvery ( ADD_BOOKMARK, addBookmark)
         ]

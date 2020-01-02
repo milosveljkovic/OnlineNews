@@ -10,5 +10,6 @@ export function* fetchNews() {
 
 export function* fetchNovelty(id) {
     const novelty = yield getNoveltyService(id.id);
+    console.log(novelty);
     yield put(getNoveltySucces(novelty));
 }

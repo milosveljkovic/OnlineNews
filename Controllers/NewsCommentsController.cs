@@ -44,7 +44,7 @@ namespace OnlineNews.Controllers
         }
 
         [HttpGet("{id}")]
-        public List<NewsComments> GetCommentsByNewsId(int id)
+        public List<NewsComments> GetCommentsByNewsId(string id)
         {
             ISession session = SessionManager.GetSession();
             List<NewsComments> comments = new List<NewsComments>();

@@ -3,7 +3,9 @@ import { getCommentsService, addCommentService } from "../../service/service.com
 import { getComments, addCommentSucces } from '../actions/comments.actions';
 
 export function* fetchComments(id) {
+    console.log(id.id);
     const comments = yield getCommentsService(id.id);
+    console.log(comments);
     yield put(getComments(comments));
 }
 
