@@ -4,7 +4,7 @@ Project for subject Advanced Data Base on Faculty of Electronic Engineering in N
 ## Technologies
 * Cassandra (https://www.datastax.com/)
 * ASP.NET Core 
-* React(v 16.2) in combnation with Saga and Store. Also you'll see in project fetch and axios.
+* React(v 16.2) in combination with Redux,Bootstrap,fetch,axios...
 
 ## How to start app ?
 1. Clone app.
